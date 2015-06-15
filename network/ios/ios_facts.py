@@ -76,18 +76,12 @@ def main():
     password = module.params['password']
     enable = module.params['enable']
 
-    try:
-        ios_dev = IOS(host, user, password, enable)
-        ios_ver = Version(ios_dev)
-        module.jsonify(ios_ver.get_version())
-    except:
-        e = sys.exc_info()[0]
 
-        module.fail_json(msg="unknown failure while trying to run IOS: " + e)
+    ios_dev = IOS(host, user, password, enable)
+    ios_ver = Version(ios_dev)
+    module.jsonify(ios_ver.get_version())
 
-    finally:
-        if ios_dev.conn:
-            qios_dev.conn.close()
+    #module.fail_json(msg="unknown failure while trying to run IOS: " + e)
 
 
 
