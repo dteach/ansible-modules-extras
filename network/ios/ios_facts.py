@@ -32,6 +32,7 @@ class IOS(object):
     """IOS control class.  This uses Exscript to interact with IOS based devices
         Attributes:
             conn: ssh connection to IOS device"""
+    conn = None
     def init_conn(self, job, host, conn):
             #prepare the device to send and receive commands
             conn.autoinit()
@@ -39,7 +40,6 @@ class IOS(object):
             return
 
     def __init__(self, host, user, password, enable=False):
-        self.conn
         acct = Account(name=user, password=password)
         if enable:
             acct.set_authorization_password(enable)
