@@ -41,7 +41,7 @@ class IOS(object):
             acct.set_authorization_password(enable)
         host = Host('ssh://' + host)
         host.set_option('driver', 'ios')
-        start(acct, host, self.init_conn, **{'verbose':0})
+        start(acct, host, self.init_conn, **{'verbose':2})
 
     def init_conn(self, job, host, conn):
         #prepare the device to send and receive commands
@@ -88,7 +88,7 @@ def main():
     ios_dev = IOS(host, user, password, enable)
     test_conn = ios_dev.get_conn()
     print ios_dev.conn
-    print dir(test_conn.shell)
+    print dir(test_conn.
     test_conn.execute('show version')
     print test_conn.response
     module.jsonify(ios_dev.response)
