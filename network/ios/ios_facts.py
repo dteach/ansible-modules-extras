@@ -82,7 +82,7 @@ def main():
 
     ios_dev = IOS(host, user, password, enable)
     ios_ver = Version(ios_dev)
-    print(ios_ver.conn)
+    print(dir(ios_ver.conn))
     module.jsonify(ios_ver.get_version())
 
     #module.fail_json(msg="unknown failure while trying to run IOS: " + e)
