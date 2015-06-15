@@ -47,6 +47,10 @@ class IOS(object):
         #prepare the device to send and receive commands
         inited = conn.autoinit()
         self.conn = conn
+        print job
+        print host
+        print conn
+        print self.conn
         return
 
     def get_conn(self):
