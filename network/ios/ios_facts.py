@@ -88,7 +88,7 @@ def main():
     ios_dev = IOS(host, user, password, enable)
     test_conn = ios_dev.get_conn()
     print ios_dev.conn
-    print test_conn
+    print dir(test_conn)
     test_conn.execute('show version')
     print test_conn.response
     module.jsonify(ios_dev.response)
