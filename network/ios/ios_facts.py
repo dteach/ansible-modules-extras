@@ -47,7 +47,8 @@ class IOS(object):
         #prepare the device to send and receive commands
         inited = conn.autoinit()
         self.conn = conn
-        print self.conn.execute('show version')
+        self.conn.execute('show version')
+        print self.conn.response
         return
 
     def get_conn(self):
