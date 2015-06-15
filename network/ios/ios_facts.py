@@ -80,8 +80,12 @@ def main():
         ios_dev = IOS(host, user, password, enable)
         ios_ver = Version(ios_dev)
         module.jsonify(ios_ver.get_version())
+    except:
+        module.fail_json(msg="unknown failure while trying to run IOS")
+
     finally:
-        ios_dev.conn.close()
+        if ios_dev.conn:
+            ios_dev.conn.close()
 
 
 
