@@ -42,8 +42,8 @@ class IOS(object):
         host = Host('ssh://' + host)
         host.set_option('driver', 'ios')
         start(acct, host, self.init_conn, **{'verbose':0})
-        print self.get_conn()
-    def init_conn(self, job, host, conn):
+
+  def init_conn(self, job, host, conn):
         #prepare the device to send and receive commands
         inited = conn.autoinit()
         self.conn = conn
@@ -82,6 +82,7 @@ def main():
 
     ios_dev = IOS(host, user, password, enable)
     ios_ver = Version(ios_dev)
+    print(ios_ver.conn)
     module.jsonify(ios_ver.get_version())
 
     #module.fail_json(msg="unknown failure while trying to run IOS: " + e)
