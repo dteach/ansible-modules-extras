@@ -53,9 +53,10 @@ class IOS(object):
         return self.conn
 
 class Version(object):
+    conn = None
 
-    def __init__(self, conn):
-        self.conn = conn
+    def __init__(self, ios):
+        self.conn = ios.get_conn()
 
     def get_version(self):
         return self.conn.execute('show version')
