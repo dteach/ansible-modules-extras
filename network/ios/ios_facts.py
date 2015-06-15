@@ -81,11 +81,13 @@ def main():
         ios_ver = Version(ios_dev)
         module.jsonify(ios_ver.get_version())
     except:
-        module.fail_json(msg="unknown failure while trying to run IOS")
+        e = sys.exc_info()[0]
+
+        module.fail_json(msg="unknown failure while trying to run IOS: " + e)
 
     finally:
         if ios_dev.conn:
-            ios_dev.conn.close()
+            qios_dev.conn.close()
 
 
 
