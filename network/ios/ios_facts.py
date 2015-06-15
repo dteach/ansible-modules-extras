@@ -43,7 +43,7 @@ class IOS(object):
         host.set_option('driver', 'ios')
         start(acct, host, self.init_conn, **{'verbose':0})
 
-  def init_conn(self, job, host, conn):
+    def init_conn(self, job, host, conn):
         #prepare the device to send and receive commands
         inited = conn.autoinit()
         self.conn = conn
