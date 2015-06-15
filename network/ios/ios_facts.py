@@ -59,7 +59,7 @@ class Version(object):
         self.conn = ios.get_conn()
 
     def get_version(self):
-        return ios.
+        pass
 
 def main():
     module = AnsibleModule(
