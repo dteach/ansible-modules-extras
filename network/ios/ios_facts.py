@@ -42,10 +42,10 @@ class IOS(object):
         host = Host('ssh://' + host)
         host.set_option('driver', 'ios')
         start(acct, host, self.init_conn)
-
+        print self.get_conn()
     def init_conn(self, job, host, conn):
         #prepare the device to send and receive commands
-        conn.autoinit()
+        inited = conn.autoinit()
         self.conn = conn
         return
 
