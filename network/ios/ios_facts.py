@@ -51,6 +51,7 @@ class IOS(object):
         print host
         print conn
         print self.conn
+
         return
 
     def get_conn(self):
@@ -85,7 +86,11 @@ def main():
 
 
     ios_dev = IOS(host, user, password, enable)
-    ios_dev.conn.execute('show version')
+    test_conn = ios_dev.get_conn()
+    print ios_dev.conn
+    print test_conn
+    test_conn.execute('show version')
+    print test_conn.response
     module.jsonify(ios_dev.response)
 
     #module.fail_json(msg="unknown failure while trying to run IOS: " + e)
