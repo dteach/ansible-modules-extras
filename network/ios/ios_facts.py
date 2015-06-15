@@ -33,11 +33,7 @@ class IOS(object):
         Attributes:
             conn: ssh connection to IOS device"""
     conn = None
-    def init_conn(self, job, host, conn):
-            #prepare the device to send and receive commands
-            conn.autoinit()
-            self.conn = conn
-            return
+
 
     def __init__(self, host, user, password, enable=False):
         acct = Account(name=user, password=password)
@@ -46,6 +42,12 @@ class IOS(object):
         host = Host('ssh://' + host)
         host.set_option('driver', 'ios')
         start(acct, host, self.init_conn())
+
+    def init_conn(self, job, host, conn):
+        #prepare the device to send and receive commands
+        conn.autoinit()
+        self.conn = conn
+        return
 
     def get_conn(self):
         return self.conn
