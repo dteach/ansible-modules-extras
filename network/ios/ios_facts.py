@@ -41,7 +41,7 @@ class IOS(object):
             acct.set_authorization_password(enable)
         host = Host('ssh://' + host)
         host.set_option('driver', 'ios')
-        start(acct, host, self.init_conn, {'verbose':0})
+        start(acct, host, self.init_conn, **{'verbose':0})
         print self.get_conn()
     def init_conn(self, job, host, conn):
         #prepare the device to send and receive commands
