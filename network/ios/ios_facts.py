@@ -60,7 +60,7 @@ class Version(object):
 
 def main():
     module = AnsibleModule(
-        arguemnt_spec = dict(
+        argument_spec = dict(
             host = dict(type='str', required=True),
             user = dict(type='str', required=True),
             password = dict(type='str', required=True),
@@ -72,13 +72,9 @@ def main():
         module.fail_json(msg="the python module 'exscript' is required")
 
     host = module.params['host']
-    print("host: " + host)
     user = module.params['user']
-    print("user: " + user)
     password = module.params['password']
-    print("password: " + password)
     enable = module.params['enable']
-    print("enable: " + enable)
 
     try:
         ios_dev = IOS(host, user, password, enable)
