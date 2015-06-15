@@ -59,7 +59,7 @@ class Version(object):
         self.conn = ios.get_conn()
 
     def get_version(self):
-        return self.conn.execute('show version')
+        return ios.
 
 def main():
     module = AnsibleModule(
@@ -81,9 +81,7 @@ def main():
 
 
     ios_dev = IOS(host, user, password, enable)
-    ios_ver = Version(ios_dev)
-    #print(dir(ios_ver.conn))
-    module.jsonify(ios_ver.get_version())
+    module.jsonify(ios_dev.conn.execute('show version'))
 
     #module.fail_json(msg="unknown failure while trying to run IOS: " + e)
 
