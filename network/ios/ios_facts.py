@@ -47,8 +47,6 @@ class IOS(object):
         #prepare the device to send and receive commands
         inited = conn.autoinit()
         self.conn = conn
-        self.conn.execute('show version')
-        print self.conn.response
         return
 
     def get_conn(self):
@@ -83,7 +81,8 @@ def main():
 
 
     ios_dev = IOS(host, user, password, enable)
-    module.jsonify(ios_dev.conn.execute('show version'))
+    ios_dev.conn.execute('show version')
+    module.jsonify(ios_dev.response)
 
     #module.fail_json(msg="unknown failure while trying to run IOS: " + e)
 
