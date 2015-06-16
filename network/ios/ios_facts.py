@@ -28,6 +28,7 @@ else:
 
 
 def do_work(job, host, conn):
+    print "are we getting here?"
     conn.autoinit()
     conn.execute('show version')
     print conn.response
