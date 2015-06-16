@@ -18,7 +18,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 
-
+import sys
 try:
     from Exscript import Account, Host, Queue
 except ImportError:
@@ -45,11 +45,14 @@ class Ios(object):
         self.q.destroy()
 
     def get_ver(self, job, host, conn):
-        print "did we get here?"
-        print conn.is_protocol_authenticated()
-        conn.auoinit()
-        print conn.is_protocol_authenticated()
-        print conn.get_dict()
+        try:
+            print "did we get here?"
+            print conn.is_protocol_authenticated()
+            conn.autoinit()
+            print conn.is_protocol_authenticated()
+            print conn.get_dict()
+        except:
+            print sys.exc_info()[0]
 
 
 def main():
