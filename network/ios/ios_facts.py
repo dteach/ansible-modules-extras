@@ -30,7 +30,7 @@ else:
 def do_work(job, host, conn):
     conn.autoinit()
     conn.execute('show version')
-    return conn.response
+    print conn.response
 
 def main():
     module = AnsibleModule(
