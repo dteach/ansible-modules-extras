@@ -27,11 +27,6 @@ else:
     exscript_found = True
 
 
-def do_work(job, host, conn):
-    print "are we getting here?"
-    conn.autoinit()
-    conn.execute('show version')
-    print conn.response
 
 def main():
     module = AnsibleModule(
@@ -42,6 +37,12 @@ def main():
             enable = dict(type='str', required=False),
         )
     )
+    def do_work(job, host, conn):
+        print "are we getting here?"
+        conn.autoinit()
+        conn.execute('show version')
+        print conn.response
+
 
     if not exscript_found:
         module.fail_json(msg="the python module 'exscript' is required")
