@@ -34,7 +34,7 @@ class Ios(object):
         self.q = Queue(**kwargs)
         self.hosts = Host('ssh://' + host)
         self.hosts.set_option('driver', 'ios')
-        acct = Account(user=user, password=password)
+        acct = Account(name=user, password=password)
         if enable:
             acct.set_authorization_password(enable)
 
