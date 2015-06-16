@@ -47,7 +47,7 @@ class Ios(object):
     def get_ver(self, job, host, conn):
         print "did we get here?"
         print conn.autoinit()
-        conn.execute('show version')
+        print conn.execute('show version')
         print conn.response
 
 def main():
