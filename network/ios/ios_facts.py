@@ -26,7 +26,25 @@ except ImportError:
 else:
     exscript_found = True
 
+class Ios(object):
+    q = None
+    hosts = None
 
+    def __init__(self, host, user, password, enable=False, **kwargs):
+        self.q = Queue(**kwargs)
+        self.hosts = Host('ssh://' + host)
+        self.hosts.set_option('driver', 'ios')
+        acct = Account(user=user, password=password)
+        if enable:
+            acct.set_authorization_password(enable)
+
+        self.q.add_account(acct)
+        self.q.run(self.hosts)
+        self.q.destroy()
+
+    def get_ver(self, job, host, conn):
+        conn.execute('show version')
+        print conn.response
 
 def main():
     module = AnsibleModule(
@@ -48,21 +66,7 @@ def main():
     enable = module.params['enable']
 
     #use the Queue module form exscript to run through all of the hosts
-    acct = Account(name=user, password=password)
-    if enable:
-        acct.set_authorization_password(enable)
-    host = Host('ssh://' + host)
-    host.set_option('driver', 'ios')
-    queue = Queue(**{'verbose':2})
-    queue.add_account(acct)
-    queue.run(host,do_work)
-
-
-    def do_work(job, host, conn):
-        print "are we getting here?"
-        conn.autoinit()
-        conn.execute('show version')
-        print conn.response
+    Ios(host,user,password,enable)
 
 
 
