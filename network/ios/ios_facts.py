@@ -20,51 +20,16 @@
 
 
 try:
-    from Exscript import Account, Host
-    from Exscript.util.start import start
+    from Exscript import Account, Host, Queue
 except ImportError:
     exscript_found = False
 else:
     exscript_found = True
 
 
-class IOS(object):
-    """IOS control class.  This uses Exscript to interact with IOS based devices
-        Attributes:
-            conn: ssh connection to IOS device"""
-    conn = None
-
-
-    def __init__(self, host, user, password, enable=False):
-        acct = Account(name=user, password=password)
-        if enable:
-            acct.set_authorization_password(enable)
-        host = Host('ssh://' + host)
-        host.set_option('driver', 'ios')
-        start(acct, host, self.init_conn, **{'verbose':2})
-
-    def init_conn(self, job, host, conn):
-        #prepare the device to send and receive commands
-        inited = conn.autoinit()
-        self.conn = conn
-        print job
-        print host
-        print conn
-        print self.conn
-
-        return
-
-    def get_conn(self):
-        return self.conn
-
-class Version(object):
-    conn = None
-
-    def __init__(self, ios):
-        self.conn = ios.get_conn()
-
-    def get_version(self):
-        pass
+def do_work(job, host, conn):
+    conn.execute('show version')
+    return conn.response
 
 def main():
     module = AnsibleModule(
@@ -84,15 +49,18 @@ def main():
     password = module.params['password']
     enable = module.params['enable']
 
+    #use the Queue module form exscript to run through all of the hosts
+    acct = Account(name=user, password=password)
+    if enable:
+        acct.set_authorization_password(enable)
+    host = Host('ssh://' + host)
+    host.set_option('driver', 'ios')
+    queue = Queue(**{'verbose':0})
+    queue.add_account(acct)
+    queue.run(host,do_work)
+    queue.destroy()
 
-    ios_dev = IOS(host, user, password, enable)
-    test_conn = ios_dev.get_conn()
-    print ios_dev.conn
-    test_conn.execute('show version')
-    print test_conn.response
-    module.jsonify(ios_dev.response)
 
-    #module.fail_json(msg="unknown failure while trying to run IOS: " + e)
 
 
 
