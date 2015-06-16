@@ -28,6 +28,7 @@ else:
 
 
 def do_work(job, host, conn):
+    conn.autoinit()
     conn.execute('show version')
     return conn.response
 
