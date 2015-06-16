@@ -43,6 +43,7 @@ class Ios(object):
         self.q.destroy()
 
     def get_ver(self, job, host, conn):
+        print "did we get here?"
         conn.execute('show version')
         print conn.response
 
