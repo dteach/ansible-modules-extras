@@ -41,13 +41,13 @@ class Ios(object):
         self.q.add_account(acct)
         print self.hosts.get_dict()
 
-        print self.q.run(self.hosts,self.get_ver)
+        print self.q.run(self.hosts,fself.get_ver)
         self.q.destroy()
 
     def get_ver(self, job, host, conn):
         try:
             print "did we get here?"
-            print conn.is_protocol_authenticated()
+            conn.login()
             conn.autoinit()
             print conn.is_protocol_authenticated()
             print conn.get_dict()
