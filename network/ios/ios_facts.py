@@ -39,7 +39,7 @@ class Ios(object):
             acct.set_authorization_password(enable)
 
         self.q.add_account(acct)
-        self.q.run(self.hosts)
+        self.q.run(self.hosts,self.get_ver)
         self.q.destroy()
 
     def get_ver(self, job, host, conn):
