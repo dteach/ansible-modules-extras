@@ -56,7 +56,7 @@ def main():
         acct.set_authorization_password(enable)
     host = Host('ssh://' + host)
     host.set_option('driver', 'ios')
-    queue = Queue(**{'verbose':0})
+    queue = Queue(**{'verbose':2})
     queue.add_account(acct)
     task = queue.run(host,do_work)
     print task
