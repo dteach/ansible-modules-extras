@@ -47,6 +47,8 @@ class Ios(object):
     def get_ver(self, job, host, conn):
         print "did we get here?"
         print conn.is_protocol_authenticated()
+        conn.auoinit()
+        print conn.is_protocol_authenticated()
         print conn.get_dict()
 
 
