@@ -39,13 +39,14 @@ class Ios(object):
             acct.set_authorization_password(enable)
 
         self.q.add_account(acct)
-        print self.hosts
+        print self.hosts.get_dict()
 
         print self.q.run(self.hosts,self.get_ver)
         self.q.destroy()
 
     def get_ver(self, job, host, conn):
         print "did we get here?"
+        print help(conn)
         conn.execute('show version')
         print conn.response
 
