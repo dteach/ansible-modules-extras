@@ -48,10 +48,10 @@ class Ios(object):
     def get_ver(self, job, host, conn):
         try:
             print "did we get here?"
-            conn.login()
             conn.autoinit()
             print conn.is_protocol_authenticated()
-            print conn.get_dict()
+            conn.execute('show version')
+            print conn.response
         except:
             print sys.exc_info()[0]
 
