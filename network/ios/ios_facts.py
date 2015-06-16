@@ -58,11 +58,7 @@ def main():
     host.set_option('driver', 'ios')
     queue = Queue(**{'verbose':2})
     queue.add_account(acct)
-    task = queue.run(host,do_work)
-    print task
-    while not task.is_completed:
-        pass
-    queue.destroy()
+    queue.run(host,do_work)
 
 
 
