@@ -37,11 +37,6 @@ def main():
             enable = dict(type='str', required=False),
         )
     )
-    def do_work(job, host, conn):
-        print "are we getting here?"
-        conn.autoinit()
-        conn.execute('show version')
-        print conn.response
 
 
     if not exscript_found:
@@ -63,6 +58,11 @@ def main():
     queue.run(host,do_work)
 
 
+    def do_work(job, host, conn):
+        print "are we getting here?"
+        conn.autoinit()
+        conn.execute('show version')
+        print conn.response
 
 
 
