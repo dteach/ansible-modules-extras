@@ -69,7 +69,7 @@ def main():
     enable = module.params['enable']
 
     #use the Queue module form exscript to run through all of the hosts
-    Ios(host,user,password,enable **{'verbose':2})
+    Ios(host, user, password, enable, **{'verbose':2})
 
 
 
