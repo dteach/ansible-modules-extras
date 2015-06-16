@@ -21,6 +21,7 @@
 import sys
 try:
     from Exscript import Account, Host, Queue
+    from Exscript.util.decorator import autologin
 except ImportError:
     exscript_found = False
 else:
@@ -41,7 +42,7 @@ class Ios(object):
         self.q.add_account(acct)
         print self.hosts.get_dict()
 
-        print self.q.run(self.hosts,fself.get_ver)
+        print self.q.run(self.hosts,autologin()(self.get_ver))
         self.q.destroy()
 
     def get_ver(self, job, host, conn):
