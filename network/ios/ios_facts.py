@@ -60,7 +60,7 @@ def main():
     host.set_option('driver', 'ios')
     queue = Queue(verbose = 2)
     queue.add_account(acct)
-    queue.run(host,do_work)
+    queue.run(host,do_work())
 
 
 
