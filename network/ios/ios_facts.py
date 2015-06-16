@@ -46,8 +46,9 @@ class Ios(object):
 
     def get_ver(self, job, host, conn):
         print "did we get here?"
-        print conn.get_dict()
         print conn.is_protocol_authenticated()
+        print conn.get_dict()
+
 
 def main():
     module = AnsibleModule(
