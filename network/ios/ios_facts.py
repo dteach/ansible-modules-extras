@@ -65,6 +65,7 @@ class getFacts(object):
     def get_results(self):
         return self.results
 
+
 def get_ver(job, host, conn, my_facts):
     conn.autoinit()
     conn.execute('show version')
