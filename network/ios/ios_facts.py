@@ -43,6 +43,7 @@ class dev_q(object):
             tmp_host.set_protocol(default_protocol)
             tmp_host.set_option('driver', default_driver)
             self.hosts.append(tmp_host)
+        print self.hosts
 
     def add_accounts(self, name, password, enable=False):
         acct = Account(name=name, password=password)
@@ -68,6 +69,7 @@ class getFacts(object):
 
 
 def get_ver(job, host, conn, my_facts):
+    print "do we get here?"
     conn.autoinit()
     conn.execute('show version')
     my_facts.add_results(host, conn.response)
