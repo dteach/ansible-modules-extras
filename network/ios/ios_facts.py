@@ -103,15 +103,15 @@ def main():
     password = module.params['password']
     enable = module.params['enable']
     #use the Queue module form exscript to run through all of the hosts
+    my_devs = dev_q(**{'verbose': 2})
+    my_devs.add_hosts(host)
+    my_devs.add_accounts(user, password, enable)
+    my_facts = getFacts()
     try:
-        my_devs = dev_q(**{'verbose': 2})
-        my_devs.add_hosts(host)
-        my_devs.add_accounts(user, password, enable)
-        my_facts = getFacts()
         my_devs.run(bind(my_devs.get_ver, my_facts))
         my_devs.destroy()
     except:
-        print sys.exc_info()[0]
+        print sys.exc_info()
 
 
 
