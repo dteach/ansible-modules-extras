@@ -22,7 +22,8 @@ import sys
 import json
 try:
     from Exscript import Account, Host, Queue
-    from Exscript.util.decorator import autologin
+    from Exscript.util.decorator import autologin, bind
+
 except ImportError:
     exscript_found = False
 else:
@@ -32,31 +33,42 @@ class dev_q(object):
     q = None
     hosts = None
 
-    def __init__(self, host, user, password, enable=False, **kwargs):
+    def __init__(self, **kwargs):
         self.q = Queue(**kwargs)
-        self.hosts = Host('ssh://' + host)
-        self.hosts.set_option('driver', 'ios')
-        acct = Account(name=user, password=password)
+        self.hosts = []
+
+    def add_hosts(self, hosts, default_protocol = "ssh", default_driver = 'ios'):
+        for host in hosts:
+            tmp_host = Host(host)
+            tmp_host.set_protocol(default_protocol)
+            tmp_host.set_driver(default_driver)
+            self.hosts.append(tmp_host)
+
+    def add_accounts(self, name, password, enable=False):
+        acct = Account(name=name, password=password)
         if enable:
             acct.set_authorization_password(enable)
-
-        self.q.add_account(acct)
-        self.q.run(self.hosts, autologin()(self.get_ver))
-        self.q.destroy()
-
-    def add_hosts(self, hosts):
+        return self.q.add_account(acct)
         
+    def run(self, func):
+        return self.q.run(self.hosts, autologin()(func))
 
+class getFacts(object):
+    results = None
 
-    def get_ver(self, job, host, conn):
-        try:
-            conn.autoinit()
-            conn.execute('show version')
-            print conn.response
-            #return json.dumps(conn.response)
-        except:
-            print sys.exc_info()[0]
+    def __init__(self):
+        self.results = {}
 
+    def add_results(self, host, response):
+        self.results[host] = response
+
+    def get_results(self):
+        return self.results
+
+def get_ver(job, host, conn, my_facts):
+    conn.autoinit()
+    conn.execute('show version')
+    my_facts.add_results(host, conn.response)
 
 def main():
     module = AnsibleModule(
@@ -78,7 +90,14 @@ def main():
     enable = module.params['enable']
 
     #use the Queue module form exscript to run through all of the hosts
-   res = Ios(host, user, password, enable, **{'verbose': 0})
+    my_devs = dev_q(**{'verbose': 2})
+    my_devs.add_hosts(host)
+    my_devs.add_accounts(user, password, enable)
+    my_facts = getFacts
+    my_devs.run(bind(get_ver, my_facts))
+    print my_facts.get_results()
+
+
 
 
 
