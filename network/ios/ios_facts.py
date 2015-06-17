@@ -37,11 +37,12 @@ class dev_q(object):
         self.q = Queue(**kwargs)
         self.hosts = []
 
-    def add_hosts(self, hosts, default_protocol = "ssh", default_driver = 'ios'):
+    def add_hosts(self, hosts, default_protocol = "ssh2", default_driver = 'ios'):
         for host in hosts.split(','):
             tmp_host = Host(host)
             tmp_host.set_protocol(default_protocol)
             tmp_host.set_option('driver', default_driver)
+
             self.hosts.append(tmp_host)
         print [x.get_dict() for x in self.hosts]
 
