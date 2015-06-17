@@ -38,9 +38,7 @@ class dev_q(object):
         self.hosts = []
 
     def add_hosts(self, hosts, default_protocol = "ssh", default_driver = 'ios'):
-        print "dp we get here"
-        print hosts
-        for host in hosts:
+        for host in hosts.split(','):
             tmp_host = Host(host)
             tmp_host.set_protocol(default_protocol)
             tmp_host.set_option('driver', default_driver)
@@ -70,7 +68,6 @@ class getFacts(object):
 
 
 def get_ver(job, host, conn, my_facts):
-    print "do we get here?"
     conn.autoinit()
     conn.execute('show version')
     my_facts.add_results(host, conn.response)
@@ -93,7 +90,6 @@ def main():
     user = module.params['user']
     password = module.params['password']
     enable = module.params['enable']
-    print host
     #use the Queue module form exscript to run through all of the hosts
     my_devs = dev_q(**{'verbose': 2})
     my_devs.add_hosts(host)
