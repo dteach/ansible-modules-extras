@@ -94,7 +94,7 @@ def main():
     my_devs = dev_q(**{'verbose': 2})
     my_devs.add_hosts(host)
     my_devs.add_accounts(user, password, enable)
-    my_facts = getFacts
+    my_facts = getFacts()
     my_devs.run(bind(get_ver, my_facts))
     print my_facts.get_results()
 
