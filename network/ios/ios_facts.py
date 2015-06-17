@@ -57,7 +57,7 @@ class dev_q(object):
         self.q.run(self.hosts, autologin()(func))
         print "are we running after?"
 
-    def destory(self):
+    def destroy(self):
         self.q.destroy()
 
     def get_ver(self, job, host, conn, my_facts):
