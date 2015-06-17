@@ -53,8 +53,9 @@ class dev_q(object):
         return self.q.add_account(acct)
         
     def run(self, func):
+        print "are we running?"
         self.q.run(self.hosts, autologin()(func))
-
+        print "are we running after?"
 class getFacts(object):
     results = None
 
