@@ -43,7 +43,7 @@ class dev_q(object):
             tmp_host.set_protocol(default_protocol)
             tmp_host.set_option('driver', default_driver)
             self.hosts.append(tmp_host)
-        print [x.get_dict for x in self.hosts]
+        print [x.get_dict() for x in self.hosts]
 
     def add_accounts(self, name, password, enable=False):
         acct = Account(name=name, password=password)
