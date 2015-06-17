@@ -51,7 +51,7 @@ class dev_q(object):
         return self.q.add_account(acct)
         
     def run(self, func):
-        return self.q.run(self.hosts, autologin()(func))
+        self.q.run(self.hosts, autologin()(func))
 
 class getFacts(object):
     results = None
