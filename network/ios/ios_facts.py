@@ -38,6 +38,7 @@ class dev_q(object):
         self.hosts = []
 
     def add_hosts(self, hosts, default_protocol = "ssh", default_driver = 'ios'):
+        print "dp we get here"
         print hosts
         for host in hosts:
             tmp_host = Host(host)
