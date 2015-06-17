@@ -38,12 +38,12 @@ class dev_q(object):
         self.hosts = []
 
     def add_hosts(self, hosts, default_protocol = "ssh", default_driver = 'ios'):
+        print hosts
         for host in hosts:
             tmp_host = Host(host)
             tmp_host.set_protocol(default_protocol)
             tmp_host.set_option('driver', default_driver)
             self.hosts.append(tmp_host)
-        print self.hosts
 
     def add_accounts(self, name, password, enable=False):
         acct = Account(name=name, password=password)
