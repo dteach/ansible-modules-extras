@@ -70,6 +70,7 @@ class getFacts(object):
 def get_ver(job, host, conn, my_facts):
     conn.autoinit()
     conn.execute('show version')
+    print conn.response
     my_facts.add_results(host, conn.response)
 
 def main():
@@ -96,7 +97,7 @@ def main():
     my_devs.add_accounts(user, password, enable)
     my_facts = getFacts()
     my_devs.run(bind(get_ver, my_facts))
-    print my_facts.get_results()
+
 
 
 
