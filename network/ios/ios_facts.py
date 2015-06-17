@@ -19,6 +19,7 @@
 # along with Ansible.  If not, see <http://www.gnu.org/licenses/>.
 
 import sys
+import json
 try:
     from Exscript import Account, Host, Queue
     from Exscript.util.decorator import autologin
@@ -27,7 +28,7 @@ except ImportError:
 else:
     exscript_found = True
 
-class Ios(object):
+class dev_q(object):
     q = None
     hosts = None
 
@@ -40,18 +41,19 @@ class Ios(object):
             acct.set_authorization_password(enable)
 
         self.q.add_account(acct)
-        print self.hosts.get_dict()
-
-        print self.q.run(self.hosts,autologin()(self.get_ver))
+        self.q.run(self.hosts, autologin()(self.get_ver))
         self.q.destroy()
+
+    def add_hosts(self, hosts):
+        
+
 
     def get_ver(self, job, host, conn):
         try:
-            print "did we get here?"
             conn.autoinit()
-            print conn.is_protocol_authenticated()
             conn.execute('show version')
             print conn.response
+            #return json.dumps(conn.response)
         except:
             print sys.exc_info()[0]
 
@@ -76,7 +78,7 @@ def main():
     enable = module.params['enable']
 
     #use the Queue module form exscript to run through all of the hosts
-    Ios(host, user, password, enable, **{'verbose':2})
+   res = Ios(host, user, password, enable, **{'verbose': 0})
 
 
 
