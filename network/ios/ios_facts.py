@@ -66,14 +66,14 @@ class getFacts(object):
         return self.results
 
 
-def get_ver(job, host, conn, my_facts):
+def get_ver(job, host, conn):
     print "do we get here"
     print host
     print conn
     conn.autoinit()
     conn.execute('show version')
     print conn.response
-    my_facts.add_results(host, conn.response)
+    #my_facts.add_results(host, conn.response)
 
 def main():
     module = AnsibleModule(
@@ -98,7 +98,7 @@ def main():
     my_devs.add_hosts(host)
     my_devs.add_accounts(user, password, enable)
     my_facts = getFacts()
-    my_devs.run(bind(get_ver, my_facts))
+    my_devs.run(get_ver)
 
 
 
