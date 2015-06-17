@@ -93,7 +93,7 @@ def main():
     user = module.params['user']
     password = module.params['password']
     enable = module.params['enable']
-
+    print host
     #use the Queue module form exscript to run through all of the hosts
     my_devs = dev_q(**{'verbose': 2})
     my_devs.add_hosts(host)
