@@ -41,7 +41,7 @@ class dev_q(object):
         for host in hosts:
             tmp_host = Host(host)
             tmp_host.set_protocol(default_protocol)
-            tmp_host.option('driver', default_driver)
+            tmp_host.set_option('driver', default_driver)
             self.hosts.append(tmp_host)
 
     def add_accounts(self, name, password, enable=False):
