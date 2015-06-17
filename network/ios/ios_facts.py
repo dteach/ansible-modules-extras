@@ -51,7 +51,6 @@ class dev_q(object):
         return self.q.add_account(acct)
         
     def run(self, func):
-        print "do we get here?"
         return self.q.run(self.hosts, autologin()(func))
 
 class getFacts(object):
@@ -68,6 +67,9 @@ class getFacts(object):
 
 
 def get_ver(job, host, conn, my_facts):
+    print "do we get here"
+    print host
+    print conn
     conn.autoinit()
     conn.execute('show version')
     print conn.response
