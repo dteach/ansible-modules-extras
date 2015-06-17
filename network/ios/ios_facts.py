@@ -56,6 +56,10 @@ class dev_q(object):
         print "are we running?"
         self.q.run(self.hosts, autologin()(func))
         print "are we running after?"
+
+    def destory(self):
+        self.q.destroy()
+
 class getFacts(object):
     results = None
 
@@ -102,6 +106,7 @@ def main():
     my_devs.add_accounts(user, password, enable)
     my_facts = getFacts()
     my_devs.run(get_ver)
+    my_devs.destroy()
 
 
 
