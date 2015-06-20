@@ -166,7 +166,7 @@ def main():
     try:
         my_devs.run(bind(func_factory, [get_ver],my_facts))
         my_devs.destroy()
-        print my_facts.get_results()
+        print module.jsonify(my_facts.get_results())
     except:
         module.fail_json(msg=str(sys.exc_info()))
 
