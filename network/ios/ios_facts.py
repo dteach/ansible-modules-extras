@@ -26,10 +26,10 @@ import re
 RE_VER = [
     re.compile(r'(System\ )(restarted.*|image.*)'),
     re.compile(r'(?:.*Cisco.*|.*Technical.*|.*laws.*)'),
-    re.compile(r'([A-Z].*:)\s(.*)\s?'),
+    re.compile(r'([A-Z].*)(?:\b\s+):\s(.*)\s?'),
     re.compile(r'(.*uptime\sis)(.*)'),
-    re.compile(r'(/d+)(.*interfaces?)'),
-    re.compile(r'(.*WS.*?)\s+([\d.()A-Z]+)'),
+    re.compile(r'(\d+)\s(.*)\s(.*interfaces?)'),
+    re.compile(r'(.*WS.*?)[\s]{2,}([\d.()A-Z]+)'),
           ]
 
 try:
