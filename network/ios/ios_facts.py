@@ -20,6 +20,18 @@
 
 import sys
 import json
+import re
+
+
+RE_VER = [
+    re.compile(r'(System\ )(restarted.*|image.*)'),
+    re.compile(r'(?:.*Cisco.*|.*Technical.*|.*laws.*)'),
+    re.compile(r'([A-Z].*:)\s(.*)\s?'),
+    re.compile(r'(.*uptime\sis)(.*)'),
+    re.compile(r'((/d+).*interfaces?$)'),
+    re.compile(r'(.*WS.*?)\s+([\d.()A-Z]+)'),
+          ]
+
 try:
     from Exscript import Account, Host, Queue
     from Exscript.util.decorator import autologin, bind
@@ -44,7 +56,6 @@ class dev_q(object):
             tmp_host.set_option('driver', default_driver)
             tmp_host.set_tcp_port(default_port)
             self.hosts.append(tmp_host)
-        print [x.get_dict() for x in self.hosts]
 
     def add_accounts(self, name, password, enable=False):
         acct = Account(name=name, password=password)
@@ -53,44 +64,78 @@ class dev_q(object):
         return self.q.add_account(acct)
         
     def run(self, func):
-        print "are we running?"
         self.q.run(self.hosts, autologin()(func))
-        print "are we running after?"
 
     def destroy(self):
         self.q.destroy()
 
-    def get_ver(self, job, host, conn, my_facts):
-        print "do we get here"
-        print host
-        print conn
-        conn.autoinit()
-        conn.execute('show version')
-        print conn.response
-        my_facts.add_results(host, conn.response)
+
 
 class getFacts(object):
+
     results = None
 
     def __init__(self):
         self.results = {}
 
-    def add_results(self, host, response):
-        self.results[host] = response
+    def add_host(self, host):
+        self.results[host] = {}
+
+    def add_cmd(self, host, cmd):
+        self.results[host] = {cmd: ""}
+
+    def add_resp(self, host, cmd, resp):
+        self.results[host][cmd] = resp
+
+    def has_host(self, host):
+        return host in self.results
+
+    def has_cmd(self, host, cmd):
+        return cmd in self.results[host]
 
     def get_results(self):
         return self.results
 
 
+def func_factory(job, host, conn, funct_list, facts):
+    func_facts = facts
+    for func in funct_list:
+        conn.autoinit()
+        func(host, conn, func_facts)
+
+
+def get_ver(host, conn, my_facts):
+    cmd = 'show version'
+    hn = host.get_name()
+    if not my_facts.has_host(hn):
+        my_facts.add_host(hn)
+    if not my_facts.has_cmd(hn, cmd):
+        my_facts.add_cmd(hn, cmd)
+    conn.execute(cmd)
+    parsed = parse_ver(conn.response)
+    print(parsed.groups())
+    my_facts.add_resp(hn, cmd, parsed)
+
+
+def parse_ver(str):
+    for line in str.split('\r\n'):
+        print repr(line)
+        for re in RE_VER:
+            res = re.match(line)
+            if res:
+                print RE_VER[RE_VER.index(re)].pattern
+                print res.groups()
+                break
+    return str
 
 
 def main():
     module = AnsibleModule(
-        argument_spec = dict(
-            host = dict(type='str', required=True),
-            user = dict(type='str', required=True),
-            password = dict(type='str', required=True),
-            enable = dict(type='str', required=False),
+        argument_spec=dict(
+            host=dict(type='str', required=True),
+            user=dict(type='str', required=True),
+            password=dict(type='str', required=True),
+            enable=dict(type='str', required=False),
         )
     )
 
@@ -103,15 +148,16 @@ def main():
     password = module.params['password']
     enable = module.params['enable']
     #use the Queue module form exscript to run through all of the hosts
-    my_devs = dev_q(**{'verbose': 2})
+    my_devs = dev_q(**{'verbose': 0})
     my_devs.add_hosts(host)
     my_devs.add_accounts(user, password, enable)
     my_facts = getFacts()
     try:
-        my_devs.run(bind(my_devs.get_ver, my_facts))
+        my_devs.run(bind(func_factory, [get_ver],my_facts))
         my_devs.destroy()
+        print my_facts.get_results()
     except:
-        print sys.exc_info()
+        module.fail_json(msg=str(sys.exc_info()))
 
 
 
