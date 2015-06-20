@@ -139,8 +139,8 @@ def parse_ver(str):
                         res_dict["Software Version"] = res.groups()[0]
                 print res.groups()
                 break
-    print res_dict
-    return None
+
+    return res_dict
 
 
 def main():
