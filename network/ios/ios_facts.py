@@ -130,7 +130,7 @@ def parse_ver(str):
                         res_dict['System'] = []
                     res_dict['System'].append(res.groups()[1])
                 elif RE_VER.index(re) in [2,3]:
-                    res_dict[res.group(0)] = res.groups()[1]
+                    res_dict[res.groups()[0]] = res.groups()[1]
                 elif RE_VER.index(re) == 4:
                     if "Interfaces" not in res_dict:
                         res_dict["Interfaces"] = {}
