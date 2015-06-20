@@ -28,7 +28,7 @@ RE_VER = [
     re.compile(r'(?:.*Cisco.*|.*Technical.*|.*laws.*)'),
     re.compile(r'([A-Z].*:)\s(.*)\s?'),
     re.compile(r'(.*uptime\sis)(.*)'),
-    re.compile(r'(/d+)(.*interfaces)\s'),
+    re.compile(r'(/d+)(.*interfaces?)'),
     re.compile(r'(.*WS.*?)\s+([\d.()A-Z]+)'),
           ]
 
