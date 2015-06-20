@@ -113,7 +113,6 @@ def get_ver(host, conn, my_facts):
         my_facts.add_cmd(hn, cmd)
     conn.execute(cmd)
     parsed = parse_ver(conn.response)
-    print(parsed)
     my_facts.add_resp(hn, cmd, parsed)
 
 
