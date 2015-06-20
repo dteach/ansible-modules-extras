@@ -113,7 +113,7 @@ def get_ver(host, conn, my_facts):
         my_facts.add_cmd(hn, cmd)
     conn.execute(cmd)
     parsed = parse_ver(conn.response)
-    print(parsed.groups())
+    print(parsed)
     my_facts.add_resp(hn, cmd, parsed)
 
 
@@ -137,9 +137,7 @@ def parse_ver(str):
                     res_dict["Interfaces"][res.groups()[1]] = res.groups()[0]
                 elif RE_VER.index(re) == 5:
                         res_dict["Software Version"] = res.groups()[0]
-                print res.groups()
                 break
-
     return res_dict
 
 
