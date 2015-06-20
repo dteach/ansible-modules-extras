@@ -27,9 +27,9 @@ RE_VER = [
     re.compile(r'(System\ )(restarted.*|image.*)'),
     re.compile(r'(?:.*Cisco.*|.*Technical.*|.*laws.*)'),
     re.compile(r'([A-Z].*)(?:\b\s+):\s(.*)\s?'),
-    re.compile(r'(?:.*)(uptime)(?:\sis)(.*)'),
+    re.compile(r'(?:.*)(uptime)(?:\sis\s)(.*)'),
     re.compile(r'(\d+)\s(.*)\s(.*interfaces?)'),
-    re.compile(r'(.*WS.*?)[\s]{2,}([\d.()A-Z]+)'),
+    re.compile(r'(?:.*WS.*?)[\s]{2,}([\d.()A-Z]+)'),
           ]
 
 try:
@@ -118,15 +118,29 @@ def get_ver(host, conn, my_facts):
 
 
 def parse_ver(str):
+    """split every line of the string and run line through each regex.
+       use the index of the list to decide how to store the info."""
+    res_dict = {}
     for line in str.split('\r\n'):
-        #print repr(line)
         for re in RE_VER:
             res = re.match(line)
             if res:
-                #print RE_VER[RE_VER.index(re)].pattern
-                print res.groups()
+                if RE_VER.index(re) == 0:
+                    if "System" not in res_dict:
+                        res_dict['System'] = []
+                    res_dict['System'].append(res.group(1))
+                elif RE_VER.index(re) in [2,3]:
+                    res_dict[res.group(0)] = res.group(1)
+                elif RE_VER.index(re) == 4:
+                    if "Interfaces" not in res_dict:
+                        res_dict["Interfaces"] = {}
+                    res_dict["Interfaces"][res.group(1)] = res.group(0)
+                elif RE_VER.index(re) == 5:
+                        res_dict["Software Version"] = res.group(0)
+
                 break
-    return str
+    print res_dict
+    return None
 
 
 def main():
