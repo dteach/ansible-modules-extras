@@ -128,15 +128,15 @@ def parse_ver(str):
                 if RE_VER.index(re) == 0:
                     if "System" not in res_dict:
                         res_dict['System'] = []
-                    res_dict['System'].append(res.group(2))
+                    res_dict['System'].append(res.groups()[1])
                 elif RE_VER.index(re) in [2,3]:
-                    res_dict[res.group(0)] = res.group(2)
+                    res_dict[res.group(0)] = res.groups()[1]
                 elif RE_VER.index(re) == 4:
                     if "Interfaces" not in res_dict:
                         res_dict["Interfaces"] = {}
-                    res_dict["Interfaces"][res.group(2)] = res.group(1)
+                    res_dict["Interfaces"][res.groups()[1]] = res.groups()[0]
                 elif RE_VER.index(re) == 5:
-                        res_dict["Software Version"] = res.group(1)
+                        res_dict["Software Version"] = res.groups()[0]
 
                 break
     print res_dict
