@@ -119,11 +119,11 @@ def get_ver(host, conn, my_facts):
 
 def parse_ver(str):
     for line in str.split('\r\n'):
-        print repr(line)
+        #print repr(line)
         for re in RE_VER:
             res = re.match(line)
             if res:
-                print RE_VER[RE_VER.index(re)].pattern
+                #print RE_VER[RE_VER.index(re)].pattern
                 print res.groups()
                 break
     return str
