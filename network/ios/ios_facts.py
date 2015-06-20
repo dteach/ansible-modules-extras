@@ -137,7 +137,7 @@ def parse_ver(str):
                     res_dict["Interfaces"][res.groups()[1]] = res.groups()[0]
                 elif RE_VER.index(re) == 5:
                         res_dict["Software Version"] = res.groups()[0]
-                print re.groups()
+                print res.groups()
                 break
     print res_dict
     return None
